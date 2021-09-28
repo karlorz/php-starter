@@ -36,7 +36,7 @@ composer install
 
 ## Usage 
 
-### Composer 
+### Composer (recommended)
 
 Instead of the boring previous commands, just do :
 
@@ -50,6 +50,7 @@ Details inside the [composer.json](composer.json).
 
 You can also the GitHub's button `template` (green on top right) to use this as starter point for your repo. [Détails](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
+In this case, you'll have to create to link the pre-commit-hook yourself. (see inside [composer.json](composer.json) how it can be done.)
 
 ## Requirements
 
