@@ -36,13 +36,20 @@ composer install
 
 ## Usage 
 
+### Composer 
+
 Instead of the boring previous commands, just do :
 
 - `composer create-project sebsept/composer-starter:dev-main my-new-project`
 - `cd my-new-project`
-- edit composer.json to add name and description
+- Edit composer.json to add name and description
 
 Details inside the [composer.json](composer.json).
+
+### GitHub
+
+You can also the GitHub's button `template` (green on top right) to use this as starter point for your repo. [Détails](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+
 
 ## Requirements
 
