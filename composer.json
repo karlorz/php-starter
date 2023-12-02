@@ -32,7 +32,7 @@
     "post-create-project-cmd": [
       "phive install",
       "git init",
-      "tools/captainhook install"
+      "tools/captainhook install pre-commit"
     ],
     "ccomposer": [
       "composer validate",
