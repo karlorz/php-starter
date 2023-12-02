@@ -1,7 +1,6 @@
 {
   "name": "sebsept/composer-starter",
   "description": "write a good description here.",
-  "minimum-stability": "stable",
   "license": "AFL-3.0",
   "authors": [
     {
@@ -9,15 +8,17 @@
       "email": "contact@seb7.fr"
     }
   ],
+  "require": {
+    "php": "^8.1",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ergebnis/composer-normalize": "^2.39"
+  },
+  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "SebSept\\ModuleStubs\\" : "src/"
+      "SebSept\\ModuleStubs\\": "src/"
     }
-  },
-  "require": {
-    "ext-json": "*",
-    "php": "^8.1",
-    "ext-intl": "*"
   },
   "config": {
     "platform": {
@@ -25,14 +26,6 @@
     }
   },
   "scripts": {
-    "fix" : "./tools/php-cs-fixer fix .",
-    "stan" : "./tools/phpstan analyse src",
-    "tests" : "./tools/phpunit",
-    "pre-commit-hook" : [
-      "./tools/php-cs-fixer fix . --dry-run ",
-      "@stan",
-      "@tests"
-    ],
     "post-create-project-cmd": [
       "phive install",
       "git init",
@@ -40,6 +33,19 @@
       "chmod +x .git/hooks/pre-commit",
       "mkdir src",
       "echo 'Check composer.json and you are ready to start. Implement something nice !'"
-    ]
+    ],
+    "ccomposer": [
+      "composer validate",
+      "composer normalize"
+    ],
+    "fix": "./tools/php-cs-fixer fix .",
+    "pre-commit-hook": [
+      "./tools/php-cs-fixer fix",
+      "@stan",
+      "@tests",
+      "@ccomposer"
+    ],
+    "stan": "./tools/phpstan analyse src",
+    "tests": "./tools/phpunit"
   }
 }
