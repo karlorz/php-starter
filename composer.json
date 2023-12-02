@@ -11,8 +11,11 @@
   "require": {
     "php": "^8.1",
     "ext-intl": "*",
-    "ext-json": "*",
-    "ergebnis/composer-normalize": "^2.39"
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "ergebnis/composer-normalize": "^2.39",
+    "friendsofphp/php-cs-fixer": "^3.40"
   },
   "minimum-stability": "stable",
   "autoload": {
