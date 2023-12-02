@@ -28,11 +28,7 @@
   "scripts": {
     "post-create-project-cmd": [
       "phive install",
-      "git init",
-      "echo 'composer run-script pre-commit-hook' > .git/hooks/pre-commit",
-      "chmod +x .git/hooks/pre-commit",
-      "mkdir src",
-      "echo 'Check composer.json and you are ready to start. Implement something nice !'"
+      "git init"
     ],
     "ccomposer": [
       "composer validate",
@@ -40,7 +36,7 @@
     ],
     "fix": "./tools/php-cs-fixer fix .",
     "pre-commit-hook": [
-      "./tools/php-cs-fixer fix",
+      "php-cs-fixer fix .",
       "@stan",
       "@tests",
       "@ccomposer"
