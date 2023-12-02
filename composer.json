@@ -31,7 +31,8 @@
   "scripts": {
     "post-create-project-cmd": [
       "phive install",
-      "git init"
+      "git init",
+      "captainhook install"
     ],
     "ccomposer": [
       "composer validate",
