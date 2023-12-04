@@ -1,5 +1,5 @@
 {
-  "name": "sebsept/composer-starter",
+  "name": "vendor/project",
   "description": "write a good description here.",
   "license": "AFL-3.0",
   "authors": [
@@ -23,7 +23,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "SebSept\\ModuleStubs\\": "src/"
+      "Vendor\\Project\\": "src/"
     }
   },
   "config": {
