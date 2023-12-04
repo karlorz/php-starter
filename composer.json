@@ -17,7 +17,8 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.39",
-    "friendsofphp/php-cs-fixer": "^3.40"
+    "friendsofphp/php-cs-fixer": "^3.40",
+    "rector/rector": "*"
   },
   "minimum-stability": "stable",
   "autoload": {
