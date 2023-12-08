@@ -3,3 +3,4 @@
 /.php-cs-fixer.cache
 tools
 /.phpunit.result.cache
+/.idea/
