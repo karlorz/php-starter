@@ -80,6 +80,11 @@ RUN ["fish", "-c fish_add_path /app/vendor/bin"]
 # WORKDIR /app
 # RUN composer require --dev psy/psysh:0.11.22 && ln -s /psysh/vendor/bin/psysh /usr/local/bin/psysh
 
+# ajout d'une config pour tester.
+# ici c'est juste le fichier, ça devient une config dans le compose.yml
+#COPY dockerconfig /tmp/dockerconfig
+# pas besoin de le copier, il est indiqué 'external'
+
 # On pourrait avoir un entrypoint qui va faire l'ajout de psysh (voir au dessus).
 CMD ["tail", "-f", "/dev/null"]
 
