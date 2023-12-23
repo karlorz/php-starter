@@ -64,6 +64,12 @@ ADD --chown=climber:climber \
 WORKDIR /app
 RUN chown climber /app && mkdir -p /app/vendor/bin/
 
+# ajout psysh
+ADD --chown=climber:climber \
+    --chmod=744 \
+    https://github.com/bobthecow/psysh/releases/download/v0.12.0/psysh-v0.12.0.tar.gz\
+    /usr/local/bin/psysh
+
 # ajout du dossier bin de composer au path pour executer directement les 
 USER climber
 RUN ["fish", "-c fish_add_path /app/vendor/bin"]
@@ -73,12 +79,6 @@ RUN ["fish", "-c fish_add_path /app/vendor/bin"]
 #RUN ["phive", "install phpmd --trust-gpg-keys 9093F8B32E4815AA"]
 # comme ça, on est lié à une version précise, plus de problème
 #RUN ["phive", "install https://github.com/infection/infection/releases/download/0.27.8/infection.phar --trust-gpg-keys C5095986493B4AA0"]
-
-# ajout psysh dans les dependances de dev
-# on ne peut pas faire ça, les fichiers vont être écrasés quand on va monter le volume
-# probablement
-# WORKDIR /app
-# RUN composer require --dev psy/psysh:0.11.22 && ln -s /psysh/vendor/bin/psysh /usr/local/bin/psysh
 
 # ajout d'une config pour tester.
 # ici c'est juste le fichier, ça devient une config dans le compose.yml
