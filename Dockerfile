@@ -65,6 +65,7 @@ WORKDIR /app
 RUN chown climber /app && mkdir -p /app/vendor/bin/
 
 # ajout psysh
+# @todo pas besoin des droits d'écriture, pour personne
 ADD --chown=climber:climber \
     --chmod=744 \
     https://github.com/bobthecow/psysh/releases/download/v0.12.0/psysh-v0.12.0.tar.gz\
