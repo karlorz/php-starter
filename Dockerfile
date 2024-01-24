@@ -50,7 +50,7 @@ ADD --chown=climber:climber \
     https://github.com/box-project/box/releases/download/${BOX_VERSION}/box.phar \
     /usr/local/bin/box
 
-# Add phive
+# Add phive - not yet available, gpg not installed
 # Phive require a gpg key
 # to choose the version, do not use RUN ["phive", "install phpmd --trust-gpg-keys 9093F8B32E4815AA"]
 # But use RUN ["phive", "install https://github.com/infection/infection/releases/download/0.27.8/infection.phar --trust-gpg-keys C5095986493B4AA0"]
@@ -58,6 +58,10 @@ ADD --chown=climber:climber \
     --chmod=744 \
     https://github.com/phar-io/phive/releases/download/0.15.2/phive-0.15.2.phar \
     /usr/local/bin/phive
+
+# configure git (needed for symnfony cli)
+RUN git config --global user.email "${GIT_EMAIL}" \
+    && git config --global user.name "${GIT_USERNAME}"
 
 
 WORKDIR /app
