@@ -1,16 +1,17 @@
-# Composer Project Bedrock
+# Docker / Composer Project Bedrock
 
 Ready to use repository for any composer project.
 
 - Dev tools ready to run (phpunit, phpstan, php-cs-fixer)
 - Composer scripts
 - Git pre-commit hook installed.
+- Dockerfile & dockercompose
 
 ## Motivation
 
 Avoid doing always the same things when starting a composer project.
 
-This package replaces the following boring workflow :
+This package replaces the following boring workflow (needs update) :
 
 ```shell
 mkdir my-new-project
