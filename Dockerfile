@@ -23,7 +23,7 @@ ADD --chmod=700 \
 # runtime extensions - https://symfony.com/doc/current/setup.html#technical-requirements
 # already bundled : Ctype , iconv, PCRE, Session, Tokenizer, simplexml
 # json, mbstring (bundled)
-RUN install-php-extensions intl
+RUN install-php-extensions intl pdo_pgsql
 # dev extensions
 # To start xdebug for a interactive cli use this :
 # XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=172.17.0.1 client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" php /app/hello.php
@@ -59,11 +59,8 @@ ADD --chown=climber:climber \
     https://github.com/phar-io/phive/releases/download/0.15.2/phive-0.15.2.phar \
     /usr/local/bin/phive
 
-# configure git (needed for symnfony cli)
-RUN git config --global user.email "${GIT_EMAIL}" \
-    && git config --global user.name "${GIT_USERNAME}"
 
-
+# Create app directory & vendor/bin (needed ?)
 WORKDIR /app
 RUN chown climber /app && mkdir -p /app/vendor/bin/
 
@@ -74,7 +71,19 @@ RUN wget https://github.com/bobthecow/psysh/releases/download/v0.12.0/psysh-v0.1
     && chown climber /usr/local/bin/psysh \
     && psysh --version
 
-# Add composer to path
+# symfony cli
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash \
+    && apk add symfony-cli \
+    && symfony local:check:requirements
+
+# nodejs & friends
+RUN apk add nodejs npm yarn
+
+# configure git (needed for symnfony cli)
+RUN git config --global user.email "${GIT_EMAIL}" \
+    && git config --global user.name "${GIT_USERNAME}"
+
+# Add composer binaries to path
 USER climber
 RUN ["fish", "-c fish_add_path /app/vendor/bin"]
 

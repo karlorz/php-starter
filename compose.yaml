@@ -29,11 +29,34 @@ services:
         target: /app
     user: "0:1000"
     restart: unless-stopped
+    depends_on:
+      - postgres
+  postgres:
+    # service name is the hostname
+    # @todo voir les nom de container par défaut : docker ps --format '{{.Names}}'
+    # pour savoir si c'est bien utile de les renommer
+    container_name: my_symfony_postgres
+    # @todo : utiliser un fichier de config pour la version de postgres
+    image: postgres:16.1
+    environment:
+      # @todo : changer ces valeurs pour la prod, utiliser un fichier de config
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: my_symfony
+    # utile pour la communication à l'extérieur du container uniquement @todo vérifier si utile
+    ports:
+      - target: 5432
+        published: 5432
+    #    volumes:
+    #      - type: volume
+    #        source: postgres_data
+    #        target: /var/lib/postgresql/data
+    restart: unless-stopped
 
 # https://docs.docker.com/compose/compose-file/08-configs/
 
-configs:
-  maconfig:
-    file: ./dockerconfig
+#configs:
+#  maconfig:
+#    file: ./dockerconfig
 
 # https://docs.docker.com/compose/compose-file/10-fragments/
