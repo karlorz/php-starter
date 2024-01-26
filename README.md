@@ -1,6 +1,18 @@
-# Docker / Composer Project Bedrock
+! This repository is at an early stage of development.
+It use it to fast start my own projects/tests.
 
-Ready to use repository for any composer project.
+It is intended to be used as a template for composer projects.
+
+At the moment I started it, it didn't include Docker.  
+The installation process should be rethinked.
+It was just a one command startup process (`composer create-project sebsept/composer-starter:dev-main my-new-project`) but now it includes a Docker environnement that should be running before running this command).  
+I'll do it later, but if you have ideas, suggestions, feel free to open an issue or contact me.
+
+---
+
+# PHP / Docker / Composer Project Bedrock
+
+Ready to use repository for any symfony composer project.
 
 - Dev tools ready to run (phpunit, phpstan, php-cs-fixer)
 - Composer scripts
@@ -41,7 +53,7 @@ composer install
 
 Instead of the boring previous commands, just do :
 
-- `composer create-project sebsept/composer-starter:dev-main my-new-project`
+- `composer create-project sebsept/composer-starter:dev-dev my-new-project`
 - `cd my-new-project`
 - Edit composer.json to add name and description
 
