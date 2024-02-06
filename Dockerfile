@@ -76,9 +76,6 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' 
     && apk add symfony-cli \
     && symfony local:check:requirements
 
-# nodejs & friends
-RUN apk add nodejs npm yarn
-
 # configure git (needed for symnfony cli)
 RUN git config --global user.email "${GIT_EMAIL}" \
     && git config --global user.name "${GIT_USERNAME}"
