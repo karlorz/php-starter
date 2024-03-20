@@ -1,29 +1,45 @@
 ! This repository is at an early stage of development.
-It use it to fast start my own projects/tests.
-
-It is intended to be used as a template for composer projects.
-
-At the moment I started it, it didn't include Docker.  
-The installation process should be rethinked.
-It was just a one command startup process (`composer create-project sebsept/composer-starter:dev-main my-new-project`) but now it includes a Docker environnement that should be running before running this command).  
-I'll do it later, but if you have ideas, suggestions, feel free to open an issue or contact me.
+It use it to fast start my own projects/tests.  
 
 ---
-
 # PHP / Docker / Composer Project Bedrock
 
 Ready to use repository for any symfony composer project.
-
-- Dev tools ready to run (phpunit, phpstan, php-cs-fixer)
-- Composer scripts
-- Git pre-commit hook installed.
-- Dockerfile & dockercompose
 
 ## Motivation
 
 Avoid doing always the same things when starting a composer project.
 
+```shell
+# create a new project (--bare for removing .git folder)
+git clone https://github.com/SebSept/php-starter --bare my-new-project
+cd my-new-project
+# check the port in docker-compose.yml # @todo use an override file or .env
+# @todo maybe i should not specify the port in the docker-compose.yml file to let docker choose a free port
+docker-compose up -d
+# install composer dependencies
+docker exec -it -u climber studi-symfony-api_php_1 composer install
+# start php dev server
+docker exec -it -u climber studi-symfony-api_php_1 symfony server:start --no-tls --daemon 
+# access the app in browser
+xdg-open http://localhost:8002 # change the port according to previous step
+# firefox http://localhost:8002
+# project is ready
+
+git init
+```
+
+
+
+---
+
+Outdated documentation : (just to remember)
 This package replaces the following boring workflow (needs update) :
+- Dev tools ready to run (phpunit, phpstan, php-cs-fixer)
+- Composer scripts
+- Git pre-commit hook installed.
+- Dockerfile & dockercompose
+
 
 ```shell
 mkdir my-new-project
