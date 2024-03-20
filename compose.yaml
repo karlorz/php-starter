@@ -2,6 +2,7 @@
 services:
   php:
     build:
+      context: .
       dockerfile: ./Dockerfile
       args:
         ARG COMPOSER_VERSION: 2.6.5
