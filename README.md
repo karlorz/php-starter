@@ -11,9 +11,15 @@ Ready to use repository for any symfony composer project.
 Avoid doing always the same things when starting a composer project.
 
 ```shell
-# create a new project (--bare for removing .git folder)
-git clone https://github.com/SebSept/php-starter --bare my-new-project
-cd my-new-project
+# create a new project
+git clone https://github.com/SebSept/php-starter --depth 1
+mv php-starter/ api/
+cd api/
+rm -rf .git
+git init
+git add .
+git commit -m "Initial commit"
+
 # check the port in docker-compose.yml # @todo use an override file or .env
 # @todo maybe i should not specify the port in the docker-compose.yml file to let docker choose a free port
 docker-compose up -d
