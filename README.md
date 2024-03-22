@@ -10,6 +10,8 @@ Ready to use repository for any symfony composer project.
 
 Avoid doing always the same things when starting a composer project.
 
+## Usage - Init
+
 ```shell
 # create a new project
 git clone https://github.com/SebSept/php-starter --depth 1
@@ -24,20 +26,31 @@ git commit -m "Initial commit"
 # @todo maybe i should not specify the port in the docker-compose.yml file to let docker choose a free port
 docker-compose up -d
 # install composer dependencies
-docker exec -it -u climber studi-symfony-api_php_1 composer install
+docker exec -it -u climber api_php_1 composer install
 # start php dev server
-docker exec -it -u climber studi-symfony-api_php_1 symfony server:start --no-tls --daemon 
+docker exec -it -u climber api_php_1 symfony server:start --no-tls --daemon 
 # access the app in browser
 xdg-open http://localhost:8002 # change the port according to previous step
-# firefox http://localhost:8002
-# project is ready
+```
 
-git init
+## Commands
+
+Project has a .justfile (for [just task runner](https://github.com/casey/just) ) to help you with common tasks.
+
+```shell
+# run a fish shell in the php container
+just fish
+# start the php dev server
+just serve
+# create a new controller using maker bundle
+just new-controller
+# create a new api resource using maker bundle + create and run migration
+just new-api
+
 ```
 
 
 
----
 
 Outdated documentation : (just to remember)
 This package replaces the following boring workflow (needs update) :
