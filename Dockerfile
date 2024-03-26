@@ -62,6 +62,7 @@ ADD --chown=climber:climber \
 
 # Create app directory & vendor/bin (needed ?)
 WORKDIR /app
+VOLUME /app
 RUN chown climber /app && mkdir -p /app/vendor/bin/
 
 # Add psysh - https://github.com/bobthecow/psysh
