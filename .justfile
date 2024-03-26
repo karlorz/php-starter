@@ -22,3 +22,7 @@ fixtures:
     {{console}} make:fixtures
     {{console}} doctrine:fixture:load
     # {{console}} doctrine:fixture:load --append
+
+# symfony composer require {{package}}
+req package:
+    {{symfony}} composer req {{package}}
