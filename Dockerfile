@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-# You can redefined theses valuiable in the docker-compose.yml file.
+# You can redefined theses values in the compose.yml file.
 ARG COMPOSER_VERSION=2.6.5
 ARG PHP_VERSION=8.3.4
 ARG BOX_VERSION=4.5.1
@@ -62,10 +62,9 @@ ADD --chown=climber:climber \
 
 # Create app directory & vendor/bin (needed ?)
 WORKDIR /app
-VOLUME /app
 RUN chown climber /app && mkdir -p /app/vendor/bin/
 
-# psysh - https://github.com/bobthecow/psysh
+# Add psysh - https://github.com/bobthecow/psysh
 RUN wget https://github.com/bobthecow/psysh/releases/download/v0.12.0/psysh-v0.12.0.tar.gz --output-document  /tmp/psysh.tar.gz \
     && tar -xvf /tmp/psysh.tar.gz -C /usr/local/bin/ \
     && chmod 100 /usr/local/bin/psysh \
@@ -77,19 +76,10 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' 
     && apk add symfony-cli \
     && symfony local:check:requirements
 
+USER climber
 # configure git (needed for symnfony cli)
 RUN git config --global user.email "${GIT_EMAIL}" \
     && git config --global user.name "${GIT_USERNAME}"
 
-# https://github.com/fabpot/local-php-security-checker
-# @todo add in composer scripts
-ADD --chmod=700 \
-    https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_linux_amd64 \
-    /usr/local/bin/php-security-checker
-
-# Add composer binaries to path for fish shell
-USER climber
+# Add composer binaries to path
 RUN ["fish", "-c fish_add_path /app/vendor/bin"]
-
-# @todo clean entrypoint needed
-CMD ["tail", "-f", "/dev/null"]

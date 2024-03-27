@@ -1,11 +1,25 @@
-# name of php docker container - get it using `docker ps`
-container := "your-container-name"
-docker_exec := "docker exec -it -u climber " + container
-symfony := docker_exec + " symfony "
+docker_php_exec := "docker compose exec -it -u climber php"
+symfony := docker_php_exec + " symfony "
 console := symfony + "console "
 
+docker_exec_nginx := "docker compose exec -it -u root nginx"
+
+up:
+    docker-compose up -d
+#    docker exec -it -u climber {{container}} composer install
+#    docker exec -it -u climber {{container}} yarn install
+#    docker exec -it -u climber {{container}} yarn encore dev
+
+reload_nginx:
+   {{docker_exec_nginx}} nginx -s reload
+
+# open a fish shell on the container
 fish:
-    docker exec -it -u climber {{container}} fish
+    docker compose exec -it -u climber php fish
+
+[private]
+fish_root:
+    docker compose exec -it -u root php fish
 
 serve:
     {{symfony}} server:start --no-tls --daemon
@@ -23,6 +37,6 @@ fixtures:
     {{console}} doctrine:fixture:load
     # {{console}} doctrine:fixture:load --append
 
-# symfony composer require {{package}}
+# composer require
 req package:
     {{symfony}} composer req {{package}}
