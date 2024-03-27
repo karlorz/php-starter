@@ -65,7 +65,7 @@ WORKDIR /app
 VOLUME /app
 RUN chown climber /app && mkdir -p /app/vendor/bin/
 
-# Add psysh - https://github.com/bobthecow/psysh
+# psysh - https://github.com/bobthecow/psysh
 RUN wget https://github.com/bobthecow/psysh/releases/download/v0.12.0/psysh-v0.12.0.tar.gz --output-document  /tmp/psysh.tar.gz \
     && tar -xvf /tmp/psysh.tar.gz -C /usr/local/bin/ \
     && chmod 100 /usr/local/bin/psysh \
@@ -81,7 +81,13 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' 
 RUN git config --global user.email "${GIT_EMAIL}" \
     && git config --global user.name "${GIT_USERNAME}"
 
-# Add composer binaries to path
+# https://github.com/fabpot/local-php-security-checker
+# @todo add in composer scripts
+ADD --chmod=700 \
+    https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_linux_amd64 \
+    /usr/local/bin/php-security-checker
+
+# Add composer binaries to path for fish shell
 USER climber
 RUN ["fish", "-c fish_add_path /app/vendor/bin"]
 
