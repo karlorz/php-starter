@@ -34,6 +34,7 @@ RUN adduser -D -s /usr/bin/fish -h /home/climber -u 1000 climber
 
 # Add composer
 # We may also use `install-php-extensions @composer` (not tested)
+# or get the binary from the composer docker image
 ARG COMPOSER_VERSION
 ADD --chown=climber:climber \
     --chmod=744 \
@@ -80,6 +81,13 @@ USER climber
 # configure git (needed for symnfony cli)
 RUN git config --global user.email "${GIT_EMAIL}" \
     && git config --global user.name "${GIT_USERNAME}"
+
+# Add php-cs-fixer
+ARG PHP_CS_FIXER_VERSION
+ADD --chown=climber:climber \
+    --chmod=744 \
+    https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v${PHP_CS_FIXER_VERSION}/php-cs-fixer.phar \
+    /usr/local/bin/php-cs-fixer
 
 # Add composer binaries to path
 RUN ["fish", "-c fish_add_path /app/vendor/bin"]
