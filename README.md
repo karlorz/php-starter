@@ -1,14 +1,26 @@
 ! This repository is at an early stage of development.
-It use it to fast start my own projects/tests.  
+I use it to fast start my own projects/tests.  
 
 ---
 # PHP / Docker / Composer Project Bedrock
 
-Ready to use repository for any symfony composer project.
+Ready to use repository for any symfony project.
+This provides a Docker image and files to bootstrap a Symfony project.
 
 ## Motivation
 
 Avoid doing always the same things when starting a composer project.
+Learn Docker, php server admin.
+
+## Features
+
+- based on php-fpm (alpine linux)
+- xdebug, intl, pdo_pgsql
+- composer
+- fish shell
+- symfony cli
+- psysh
+
 
 ## Usage - Init
 

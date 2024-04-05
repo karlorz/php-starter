@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:labs
 # You can redefined theses values in the compose.yml file.
-ARG COMPOSER_VERSION=2.6.5
+ARG COMPOSER_VERSION=2.7.2
 ARG PHP_VERSION=8.3.4
-ARG BOX_VERSION=4.5.1
 ARG BOX_CHECKSUM=c24c400c424a68041d7af146c71943bf1acc0c5abafa45297c503b832b9c6b16
 ARG GIT_EMAIL="seb@local.fr"
 ARG GIT_USERNAME="seb"
 ARG ALPINE_VERSION=3.18
+ARG PHP_CS_FIXER_VERSION=3.52.1
 
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS php
 
@@ -23,7 +23,7 @@ ADD --chmod=700 \
 # runtime extensions - https://symfony.com/doc/current/setup.html#technical-requirements
 # already bundled : Ctype , iconv, PCRE, Session, Tokenizer, simplexml
 # json, mbstring (bundled)
-RUN install-php-extensions intl pdo_pgsql
+RUN install-php-extensions intl pdo_pgsql opcache apcu
 # dev extensions
 # To start xdebug for a interactive cli use this :
 # XDEBUG_MODE=debug XDEBUG_SESSION=1 XDEBUG_CONFIG="client_host=172.17.0.1 client_port=9003" PHP_IDE_CONFIG="serverName=myrepl" php /app/hello.php
@@ -41,25 +41,6 @@ ADD --chown=climber:climber \
     https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
     /usr/local/bin/composer
 RUN composer --version
-
-# Add box to make phar - https://github.com/box-project/box/
-ARG BOX_VERSION
-ARG BOX_CHECKSUM
-ADD --chown=climber:climber \
-    --chmod=744 \
-    --checksum=sha256:${BOX_CHECKSUM} \
-    https://github.com/box-project/box/releases/download/${BOX_VERSION}/box.phar \
-    /usr/local/bin/box
-
-# Add phive - not yet available, gpg not installed
-# Phive require a gpg key
-# to choose the version, do not use RUN ["phive", "install phpmd --trust-gpg-keys 9093F8B32E4815AA"]
-# But use RUN ["phive", "install https://github.com/infection/infection/releases/download/0.27.8/infection.phar --trust-gpg-keys C5095986493B4AA0"]
-ADD --chown=climber:climber \
-    --chmod=744 \
-    https://github.com/phar-io/phive/releases/download/0.15.2/phive-0.15.2.phar \
-    /usr/local/bin/phive
-
 
 # Create app directory & vendor/bin (needed ?)
 WORKDIR /app
@@ -91,3 +72,5 @@ ADD --chown=climber:climber \
 
 # Add composer binaries to path
 RUN ["fish", "-c fish_add_path /app/vendor/bin"]
+# Add alias 'c' for symfony console
+RUN fish -c "alias --save c \"symfony console\""
