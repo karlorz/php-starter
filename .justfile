@@ -1,20 +1,18 @@
 docker_php_exec := "docker compose exec -it -u climber php"
 symfony := docker_php_exec + " symfony "
-# peut-être utiliser symfony + "composer"
-composer := docker_php_exec + " composer "
+composer := symfony + " composer "
 console := symfony + "console "
 docker_exec_nginx := "docker compose exec -it -u root nginx"
 
 up:
     docker-compose up -d
-#    docker exec -it -u climber {{container}} composer install
 
-[private]
-up-build:
+# update source files + docker compose down+up
+update: && tests
+    git pull
+    docker-compose down
     docker-compose up -d --build
-
-reload_nginx:
-   {{docker_exec_nginx}} nginx -s reload
+    {{composer}} install
 
 # open a fish shell on the container
 fish:
@@ -37,14 +35,17 @@ new-api:
     {{console}} doctrine:migrations:migrate --no-interaction
 
 # recréer une base de données
-db-drop-schema:
-    {{console}} doctrine:database:drop --force
-    {{console}} doctrine:database:create
-    # on ne doit pas avoir besoin de lancer les migrations dans le cas d'une création
-    {{console}} doctrine:migrations:migrate --no-interaction
+db-create:
+    {{console}} doctrine:database:drop --quiet --no-interaction --if-exists --force
+    {{console}} doctrine:database:create --quiet --no-interaction
+    {{console}} doctrine:schema:create --quiet --no-interaction
     echo "Base de données recréée"
 
-db-create-test-schema:
+db-migrate:
+    {{console}} doctrine:migrations:migrate --no-interaction
+
+db-create-test:
+    {{console}} doctrine:database:drop --env=test --force --if-exists
     {{console}} doctrine:database:create --env=test
     {{console}} doctrine:schema:create --env=test
 
@@ -55,7 +56,9 @@ db-fixtures-make entity:
 # Insertion des fixtures en base de données
 db-fixtures-load:
     {{console}} doctrine:fixture:load --no-interaction
-    # {{console}} doctrine:fixture:load --append
+
+console command:
+    {{console}} {{command}}
 
 # composer require
 req package:
@@ -69,9 +72,21 @@ req-dev package:
 quality:
     {{composer}} quality
 
-tests:
-    {{docker_php_exec}} php bin/phpunit
+tests format='--testdox':
+    {{docker_php_exec}} php bin/phpunit {{format}}
+
+test filter:
+    {{docker_php_exec}} php bin/phpunit --filter {{filter}}
+
+# création d'un test
+# The test type must be one of "TestCase", "KernelTestCase", "WebTestCase", "ApiTestCase", "PantherTestCase"
+make-test name type='ApiTestCase':
+    {{console}} make:test {{type}} {{name}}
 
 # exécution d'une requête SQL
 sql query env='dev':
     {{console}} dbal:run-sql "{{query}}" --env {{env}}
+
+# interactive php shell
+psysh:
+    {{docker_php_exec}} psysh
