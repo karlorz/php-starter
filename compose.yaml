@@ -12,6 +12,9 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
+    networks:
+      - nginx
+      - postgres
 
   postgres:
     # service name is the hostname
@@ -34,8 +37,12 @@ services:
     #        source: postgres_data
     #        target: /var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - postgres
 
   nginx:
+    expose:
+      - 32772
     image: nginx:1.21.3
     ports:
       - target: 80
@@ -52,9 +59,13 @@ services:
     depends_on:
       - php
     restart: unless-stopped
+    networks:
+      - nginx
 
-# @todo configurer les reseaux pour limiter au maximum les acces
-# networks:
-#   my_symfony:
-#volumes:
-#  postgres_data:
+networks:
+  nginx:
+  postgres:
+  php:
+
+volumes:
+  postgres_data:
