@@ -5,13 +5,13 @@ services:
       php:
         condition: service_started
     expose:
-      - "32772"
+      - "${NGINX_PORT}"
     image: nginx:1.21.3
     networks:
       nginx: null
     ports:
       - target: 80
-        published: "32772"
+        published: "${NGINX_PORT}"
     restart: unless-stopped
     volumes:
       - type: bind
@@ -40,13 +40,13 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
     expose:
-      - "5432"
+      - "${POSTGRES_PORT}"
     image: postgres:16.1
     networks:
       postgres: null
     ports:
       - target: 5432
-        published: "32770"
+        published: "${POSTGRES_PORT}"
     restart: unless-stopped
 networks:
   nginx:
