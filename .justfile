@@ -1,7 +1,10 @@
+set dotenv-load
 docker_php_exec := "docker compose exec -it -u climber php"
 symfony := docker_php_exec + " symfony "
 composer := symfony + " composer "
 console := symfony + "console "
+docker_exec_nginx := "docker compose exec -it -u root nginx"
+browser := "firefox"
 
 up:
     docker compose up -d
@@ -12,6 +15,10 @@ update: && tests
     docker compose down
     docker compose up -d --build
     {{composer}} install
+
+# open web browser
+browser:
+    {{browser}} http://localhost:$NGINX_PORT
 
 # open a fish shell on the container
 fish:
@@ -44,28 +51,25 @@ db-create-test:
     {{console}} doctrine:database:create --env=test
     {{console}} doctrine:schema:create --env=test
 
-# Création des classes de fixtures
+# Create fixture class
 db-fixtures-make entity:
     {{console}} make:fixtures {{entity}}Fixtures
 
-# Insertion des fixtures en base de données
+# Insert fixture in database (env defined in .env)
 db-fixtures-load:
     {{console}} doctrine:fixture:load --no-interaction
 
+# Run command in Symfony console
 console command:
     {{console}} {{command}}
 
-# composer require
+# composer require package
 req package:
     {{composer}} req {{package}}
 
-# composer require --dev
+# composer require package --dev
 req-dev package:
     {{composer}} req {{package}} --dev
-
-# Lancement scripts d'outil de qualité via composer
-quality:
-    {{composer}} quality
 
 tests format='--testdox':
     {{docker_php_exec}} php bin/phpunit {{format}}
@@ -85,3 +89,27 @@ sql query env='dev':
 # interactive php shell
 psysh:
     {{docker_php_exec}} psysh
+
+[private]
+[confirm("Écraser .git/hooks/pre-commit ?")]
+install-pre-commit-hook:
+    echo "docker compose exec php symfony composer run-script pre-commit" > .git/hooks/pre-commit
+    {{docker_php_exec}} chmod +x .git/hooks/pre-commit
+
+# firt run docker compose up + composer install + open browser
+[private]
+init:
+    @echo press any key to review settings in .env
+    @read
+    @xdg-open .env
+    just init-alt
+
+[confirm("review/edit params in .env")]
+[private]
+init-alt:
+    docker compose down
+    just up
+    {{composer}} install
+    just db-create-test
+    just db-create
+    just browser

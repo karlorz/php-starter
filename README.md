@@ -47,6 +47,18 @@ in `.justfile`  to help with common tasks.
 - sql # run sql command using {{console}} dbal:run-sql
 - psysh
 
-## Usage - Init
+## Requirements
 
-@todo
+- _docker compose_
+- [just task runner](https://github.com/casey/just)
+- _xdg-open_ for `init` command (type `xdg-open` in your terminal to test)
+
+## Getting started
+
+Check requirements above. 
+
+- Click the _Use this template_ green button on top of this page (github).
+- Clone your new repository
+- In your terminal : `just init` (or `just init-alt` if _xdg-open_ not available)
+
+Done ! Ready to dev.
