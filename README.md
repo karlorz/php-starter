@@ -14,12 +14,12 @@ Learn Docker, php server admin.
 
 ## Features
 
-- based on php-fpm (alpine linux)
-- xdebug, intl, pdo_pgsql
-- composer
-- fish shell
-- symfony cli
-- psysh
+- docker php image based on php-fpm (alpine linux)
+  - xdebug, intl, pdo_pgsql
+  - composer
+  - fish shell
+  - symfony cli
+  - psysh
 - just file for just task runner
 
 ### Justfile
@@ -28,13 +28,12 @@ Shortcuts to run commands in the container using [just task runner](https://gith
 in `.justfile`  to help with common tasks.
 
 - up # docker-compose up -d
-- update: && tests # update source files + docker compose down+up
+- update # update source files + docker compose down+up + tests
 - fish # open a fish shell on the container
-- serve # start symfony dev server
 - new-controller
 - new-api # new api controller + migrations
 - db-create # drop and recreates the db (for dev)
-- db-migrate # {{console}} doctrine:migrations:migrate --no-interaction
+- db-migrate # doctrine:migrations:migrate --no-interaction
 - db-create-test # create test db
 - db-fixtures-make # create fixtures in dev db
 - make:fixtures
@@ -50,25 +49,4 @@ in `.justfile`  to help with common tasks.
 
 ## Usage - Init
 
-!needs improvements
-
-```shell
-# create a new project
-git clone https://github.com/SebSept/php-starter --depth 1
-mv php-starter/ my-project/
-cd my-project/
-rm -rf .git
-git init
-git add .
-git commit -m "Initial commit"
-
-# check the port in docker-compose.yml # @todo use an override file or .env
-docker-compose up -d
-# install composer dependencies
-docker compose exec -it -u climber php composer install
-# start php dev server
-docker composer exec -it -u climber php symfony server:start --no-tls --daemon 
-# access the app in browser
-xdg-open http://localhost:8002 # change the port according to previous step
-```
-
+@todo

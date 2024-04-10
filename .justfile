@@ -2,16 +2,15 @@ docker_php_exec := "docker compose exec -it -u climber php"
 symfony := docker_php_exec + " symfony "
 composer := symfony + " composer "
 console := symfony + "console "
-docker_exec_nginx := "docker compose exec -it -u root nginx"
 
 up:
-    docker-compose up -d
+    docker compose up -d
 
 # update source files + docker compose down+up
 update: && tests
     git pull
-    docker-compose down
-    docker-compose up -d --build
+    docker compose down
+    docker compose up -d --build
     {{composer}} install
 
 # open a fish shell on the container
@@ -21,10 +20,6 @@ fish:
 [private]
 fish_root:
     docker compose exec -it -u root php fish
-
-[confirm("Démarrer le serveur symfony (et pas le serveur nginx), êtes-vous sûr ?")]
-serve:
-    {{symfony}} server:start --no-tls --daemon
 
 new-controller:
     {{console}} make:controller
