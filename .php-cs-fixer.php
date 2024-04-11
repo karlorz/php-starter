@@ -6,9 +6,9 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $header = <<<'EOF'
-    SoigneMoi API - Projet ECF
+    Your project name - Your project description
     
-    @author Sébastien Monterisi <sebastienmonterisi@gmail.com>
+    @author You <you@yourmail.com>
     2024
     EOF;
 
