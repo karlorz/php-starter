@@ -1,4 +1,4 @@
-name: composer-starter
+name: symfonystarter
 services:
   nginx:
     depends_on:
