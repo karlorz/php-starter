@@ -1,5 +1,6 @@
 {
-  "name": "sebsept/php-starter",
+  "name": "your-vendor/your-project",
+  "description": "SoigneMoi webcli",
   "type": "project",
   "license": "MIT",
   "require": {
