@@ -110,11 +110,13 @@
       "symfony composer validate",
       "@rector",
       "@cs-fixer",
+      "@twig-lint",
       "symfony composer normalize",
       "@phpstan",
       "@tests"
     ],
     "rector": "php vendor/bin/rector",
-    "tests": "php vendor/bin/paratest --runner WrapperRunner"
+    "tests": "php vendor/bin/paratest --runner WrapperRunner",
+    "twig-lint": "php bin/console lint:twig templates"
   }
 }
